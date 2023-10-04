@@ -1,34 +1,5 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# Update the package list and install Nginx
 
-# Update the package list to ensure we have the latest package information
-sudo apt update
-
-# Install Nginx if it's not already installed
-sudo apt-get install -y nginx
-
-# Create a custom Nginx configuration file for the redirection
-echo "
-server {
-    listen 80;
-    server_name your_domain_or_ip_address;
-
-    location /redirect_me {
-        return 301 https://example.com/new_page;
-    }
-
-    # Additional Nginx configuration can be added here if needed
-}" | sudo tee /etc/nginx/sites-available/redirect_me
-
-# Create a symbolic link to enable the new site configuration
-sudo ln -s /etc/nginx/sites-available/redirect_me /etc/nginx/sites-enabled/
-
-# Test the Nginx configuration for syntax errors
-sudo nginx -t
-
-# If the configuration test is successful, reload Nginx to apply changes
-if [ $? -eq 0 ]; then
-    sudo systemctl reload nginx
-    echo "Nginx configuration applied successfully."
-else
-    echo "Nginx configuration test failed. Please check your configuration files."
-fi
+# Configure your Nginx server so that /redirect_me is redirecting to another page
+REDIRECT="\\\\n\tlocation /redirect_me {\n\t\t return 301 https://www.youtube.com;\n\t}"
